@@ -3,6 +3,7 @@
 
 /scrap
 config.toml
+.hugo_build.lock
 
 ### Git ###
 # Created by git for backups. To disable backups in Git:
