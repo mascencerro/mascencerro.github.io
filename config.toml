@@ -49,7 +49,7 @@ paginate = 5
     # lastModDisplay = ""
 
     [languages.en.params.logo]
-      logoText = "mascencerro@0x194:~ $"
+      logoText = "mas@0x194:~ $"
       logoHomeLink = "/"
     # or
     #
