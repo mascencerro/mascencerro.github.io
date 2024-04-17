@@ -6,9 +6,6 @@ paginate = 5
 # publishDir = "0x194-net.github.io"
 
 [params]
-  # Google Analytics
-#  GoogleAnalyticsID = "G-JVGGCM9QQM"
-  
   # dir name of your blog content (default is `content/posts`).
   # the list of set content will show up on your index page (baseurl).
   contentTypeName = "posts"
