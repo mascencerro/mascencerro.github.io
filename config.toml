@@ -32,29 +32,30 @@ paginate = 5
 
 [languages]
   [languages.en]
-    title = "0x194"
-    subtitle = ""
-    keywords = ""
-    copyright = ""
-    menuMore = "Show more"
-    writtenBy = "Written by"
-    readMore = "Read more"
-    readOtherPosts = "Read other posts"
-    newerPosts = "Newer posts"
-    olderPosts = "Older posts"
-    minuteReadingTime = "min read"
-    dateFormatSingle = "2006-01-02"
-    dateFormatList = "2006-01-02"
-    # leave empty to disable, enter display text to enable
-    # lastModDisplay = ""
+    [languages.en.params]
+      title = "0x194"
+      subtitle = ""
+      keywords = ""
+      copyright = ""
+      menuMore = "Show more"
+      writtenBy = "Written by"
+      readMore = "Read more"
+      readOtherPosts = "Read other posts"
+      newerPosts = "Newer posts"
+      olderPosts = "Older posts"
+      minuteReadingTime = "min read"
+      dateFormatSingle = "2006-01-02"
+      dateFormatList = "2006-01-02"
+      # leave empty to disable, enter display text to enable
+      # lastModDisplay = ""
 
-    [languages.en.params.logo]
-      logoText = "mas@0x194:~ $"
-      logoHomeLink = "/"
-    # or
-    #
-    # path = "/img/your-example-logo.svg"
-    # alt = "Your example logo alt text"
+      [languages.en.params.logo]
+        logoText = "mas@0x194:~ $"
+        logoHomeLink = "/"
+      # or
+      #
+      # path = "/img/your-example-logo.svg"
+      # alt = "Your example logo alt text"
 
     [languages.en.menu]
       [[languages.en.menu.main]]
