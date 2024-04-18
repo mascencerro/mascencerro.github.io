@@ -139,6 +139,18 @@ This script is **much** longer than the unprivileged script (486 lines compared 
 |:---:|
 |{{< imagelink src=/img/miner_delivery/stager-priv-init.png link=/img/miner_delivery/stager-priv-init.png position=center >}}|
 
+Starting at the top we can see some variable assignments for `domain`, `mainurl`, `miner_url`, `rshell_url` to be used later in the script. Next, the `ar.sh` script contains a function to check to make sure the `chattr` replacement from the staging script is in place, and the test with `netstat` for current connection to the proxy similar to the unprivileged script. the next function installs build software to compile binaries from source and some additional tools.
+
+Following the checks and tools installs, the next functions do the following:
+- disable firewall `firewalld`
+- set maximum `ulimit` for resources (YOLO SEND IT!! mode)
+- sets some environment variables to take care of `history` and `PATH`
+- disable SELINUX and the kernel watchdog (is the system taking to long to respond?)
+- set DNS resolver hosts to Google (8.8.8.8) and a Chinese DNS resolver 114DNS (114.114.114.114)
+- clear and takeover `crontab` just in case a system cron job tries to periodically interfere with the new operations
+
+
+
 
 
 
