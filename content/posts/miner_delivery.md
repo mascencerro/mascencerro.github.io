@@ -172,7 +172,7 @@ Continuing through the function calls we find the `download_f()` function:
 |:---:|
 |{{< imagelink src=/img/miner_delivery/stager-priv-download_f.png link=/img/miner_delivery/stager-priv-download_f.png position=center >}}|
 
-This function creates the directory `/var/tmp/.11` if it doesn't already exist (`MOHOME` from the [initialization](/img/miner_delivery/stager-priv-init.png)) and checks to make sure the `sshd` binary doesn't already exist at that location. If the `sshd` binary exists it will delete and download a new copy by retrieving the `enbash.tar` file from the URL stored in `miner_url`, storing it as `debash.tar` and extracting the contents. It then will check for a `bioset` binary in the same location and downloads that if needed by retrieving the `enbio.tar` file, storing it as `debio.tar` and extracting the contents.
+This function creates the directory `/var/tmp/.11` if it doesn't already exist (`MOHOME` from the [initialization](/img/miner_delivery/stager-priv-init.png)) and looks for the `sshd` binary at that location. If the `sshd` binary exists it will delete and download a new copy by retrieving the `enbash.tar` file from the URL stored in `miner_url`, storing it as `debash.tar` and extracting the contents. It then will check for a `bioset` binary in the same location and downloads that if needed by retrieving the `enbio.tar` file, storing it as `debio.tar` and extracting the contents.
 
 |`debash.tar`|`debio.tar`|
 |:---:|:---:|
