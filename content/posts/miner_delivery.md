@@ -125,6 +125,10 @@ For the next step we will list the contents of this tarball and see what it cont
 |:---:|
 |{{< imagelink src=/img/miner_delivery/xm-jpg-list.png link=/img/miner_delivery/xm-jpg-list.png position=center >}}|
 
+|`xm.jpg` contents file information|
+|:---:|
+|{{< imagelink src=/img/miner_delivery/stager-unpriv-xm-files.png link=/img/miner_delivery/stager-unpriv-xm-files.png position=center >}}|
+
 **BINGO!** we've reached the plant.
 
 The 'unprivileged' branch of the script downloads the plant as a compressed TAR archive masking itself as a JPEG image, then unpacks the archive and makes the `start` binary found in the archive executable to continue by running `./start`.
@@ -170,11 +174,13 @@ Continuing through the function calls we find the `download_f()` function:
 
 This function creates the directory `/var/tmp/.11` if it doesn't already exist (`MOHOME` from the [initialization](/img/miner_delivery/stager-priv-init.png)) and checks to make sure the `sshd` binary doesn't already exist at that location. If the `sshd` binary exists it will delete and download a new copy by retrieving the `enbash.tar` file from the URL stored in `miner_url`, storing it as `debash.tar` and extracting the contents. It then will check for a `bioset` binary in the same location and downloads that if needed by retrieving the `enbio.tar` file, storing it as `debio.tar` and extracting the contents.
 
-|debash.tar|debio.tar|
+|`debash.tar`|`debio.tar`|
 |:---:|:---:|
 |{{< imagelink src=/img/miner_delivery/debash-tar-list.png link=/img/miner_delivery/debash-tar-list.png position=center >}}|{{< imagelink src=/img/miner_delivery/debio-tar-list.png link=/img/miner_delivery/debio-tar-list.png position=center >}}|
 
-
+|`debash.tar` & `debio.tar` file information|
+|:---:|
+|{{< imagelink src=/img/miner_delivery/stager-priv-enbash_enbio-files.png link=/img/miner_delivery/stager-priv-enbash_enbio-files.png position=center >}}|
 
 
 
