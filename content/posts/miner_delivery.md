@@ -133,11 +133,60 @@ There are interesting files in the archive to examine, of course, but that will 
 
 - #### Privileged System Access
 
-This script is **much** longer than the unprivileged script (486 lines compared to 29) and has *a lot* going on, so it will be covered sectionally. I left word-wrap off for the screenshots because there are some *very long* encoded strings in the script and for this writing seeing the exact string is irrelevant. I will provide links to the source code provided in the decoded message as applicable.
+This script is **much** longer than the unprivileged script (486 lines compared to 29) and has *a lot* going on, so we will dissect and analyze.
 
-|Privileged Script `ar.sh` (section 1 - initialization)|
+The first section to look at is the function calls at the bottom of the script. From there we will examine what the functions being called perform.
+
+In the initialization there are variable assignments for `domain`, `mainurl`, `miner_url`, and `rshell_url` to be visited later in the functions. The function calls at the bottom of the script outlines the order the functions will be called in. We will follow this map to determine what the script is doing.
+
+|Initialization|Function Calls|
+|:---:|:---:|
+|{{< imagelink src=/img/miner_delivery/stager-priv-init.png link=/img/miner_delivery/stager-priv-init.png position=center >}}|{{< imagelink src=/img/miner_delivery/stager-priv-funccalls.png link=/img/miner_delivery/stager-priv-funccalls.png position=center >}}
+
+Starting in the function call section of the script there is the `m_command()` function that checks the work from the initial stager script `w.sh` regarding `chattr`.
+|m_command() function|
 |:---:|
-|{{< imagelink src=/img/miner_delivery/stager-priv-init.png link=/img/miner_delivery/stager-priv-init.png position=center >}}|
+|{{< imagelink src=/img/miner_delivery/stager-priv-m_command.png link=/img/miner_delivery/stager-priv-m_command.png position=center >}}|
+
+The next functions called are `env_set()` and `clean_logs()`.
+|env_set() function|clean_logs() function|
+|:---:|:---:|
+|{{< imagelink src=/img/miner_delivery/stager-priv-env_set.png link=/img/miner_delivery/stager-priv-env_set.png position=center >}}|{{< imagelink src=/img/miner_delivery/stager-priv-clean_logs.png link=/img/miner_delivery/stager-priv-clean_logs.png position=center >}}|
+
+The `env_set()` function performs the following:
+- disable firewall `firewalld`
+- set maximum `ulimit` for resources (YOLO SEND IT!! mode)
+- sets some environment variables to take care of `history` and `PATH`
+- disable SELINUX and the kernel watchdog (is the system taking to long to respond?)
+- set DNS resolver hosts to Google (8.8.8.8) and a Chinese DNS resolver 114DNS (114.114.114.114)
+- clear and takeover `crontab` just in case a system cron job tries to periodically interfere with the new operations
+
+Then the `clean_logs()` function does just as it says and iterates through the log files truncating each as an empty file.
+
+Continuing through the function calls we find the `download_f()` function:
+|download_f() function|
+|:---:|
+|{{< imagelink src=/img/miner_delivery/stager-priv-download_f.png link=/img/miner_delivery/stager-priv-download_f.png position=center >}}|
+
+This function creates the directory `/var/tmp/.11` if it doesn't already exist (`MOHOME` from the [initialization](/img/miner_delivery/stager-priv-init.png)) and checks to make sure the `sshd` binary doesn't already exist at that location. If the `sshd` binary exists it will delete and download a new copy by retrieving the `enbash.tar` file from the URL stored in `miner_url`, storing it as `debash.tar` and extracting the contents. It then will check for a `bioset` binary in the same location and downloads that if needed by retrieving the `enbio.tar` file, storing it as `debio.tar` and extracting the contents.
+
+|debash.tar|debio.tar|
+|:---:|:---:|
+|{{< imagelink src=/img/miner_delivery/debash-tar-list.png link=/img/miner_delivery/debash-tar-list.png position=center >}}|{{< imagelink src=/img/miner_delivery/debio-tar-list.png link=/img/miner_delivery/debio-tar-list.png position=center >}}|
+
+
+
+
+
+
+
+
+
+
+
+<!-- 
+
+
 
 Starting at the top we can see some variable assignments for `domain`, `mainurl`, `miner_url`, `rshell_url` to be used later in the script. Next, the `ar.sh` script contains a function to check to make sure the `chattr` replacement from the staging script is in place, and the test with `netstat` for current connection to the proxy similar to the unprivileged script. the next function installs build software to compile binaries from source and some additional tools.
 
@@ -150,11 +199,15 @@ Following the checks and tools installs, the next functions do the following:
 - clear and takeover `crontab` just in case a system cron job tries to periodically interfere with the new operations
 
 
+|Privileged Script `ar.sh` (section 2 - ssh access)|
+|:---:|
+|{{< imagelink src=/img/miner_delivery/stager-priv-ssh.png link=/img/miner_delivery/stager-priv-ssh.png position=center >}}|
+
+This function adds SSH keys to `/root/.ssh` for remote SSH access to the `root` account on the system.  The kanji comment on line 108 translates to 'optimization' or 'majorization'.
 
 
 
-
-
+-->
 
 
 
