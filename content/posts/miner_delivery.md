@@ -133,7 +133,7 @@ For the next step we will list the contents of this tarball and see what it cont
 
 The 'unprivileged' branch of the script downloads the plant as a compressed TAR archive masking itself as a JPEG image, then unpacks the archive and makes the `start` binary found in the archive executable to continue by running `./start`.
 
-The remaining files in the archive are for setting up the miner, the xmrig miner binaries, and the [`hide`](https://github.com/chenkaie/junkcode/blob/master/xhide.c) for [hiding the processes](https://flaviu.io/linux-how-to-a-hide-processes/).
+The remaining files in the archive are for setting up the miner, the XMRig miner binaries, and the [`hide`](https://github.com/chenkaie/junkcode/blob/master/xhide.c) for [hiding the processes](https://flaviu.io/linux-how-to-a-hide-processes/).
 
 - #### Privileged System Access
 
@@ -184,15 +184,22 @@ This function creates the directory `/var/tmp/.11` if it doesn't already exist (
 
 Digging around I was able to find the [bash.sh script](https://github.com/arget13/DDexec/blob/main/ddexec.sh) used for hiding processes as part of the [DDexec Github repository](https://github.com/arget13/DDexec).
 
-&nbsp;
+Looking at the size and md5sum of the two miner binary files `aarch64` and `x86_64` from the 'unprivileged' download file `xm.jpg` and comparing to the `sshd` binary from `enbash.tar` it is probably safe to assume the `sshd` binary is the miner binary.
 
-The next functions called, `setup_s()` and `makesshaxx()`, proceed to set up an SSH daemon and make it accessible to the `root` system user.
+|Binary Comparisons|
+|:---:|
+|{{< imagelink src=/img/miner_delivery/miner-size-md5sum.png link=/img/miner_delivery/miner-size-md5sum.png position=center >}}|
+
+The binary `bioset` from the `enbio.tar` appears to be the reverse shell utility [Platypus](https://github.com/WangYihang/Platypus).
+
+
+The next functions called, `setup_s()` and `makesshaxx()`, proceed to set up the miner to appear as an SSH daemon and add keys to the `root` user for future access by the attacker.
 
 |setup_s() function|makesshaxx() function|
 |:---:|:---:|
 |{{< imagelink src=/img/miner_delivery/stager-priv-setup_s.png link=/img/miner_delivery/stager-priv-setup_s.png position=center >}}|{{< imagelink src=/img/miner_delivery/stager-priv-makesshaxx.png link=/img/miner_delivery/stager-priv-makesshaxx.png position=center >}}|
 
-Following the SSH daemon setup and access we will find the `ins_package()` function which installs build tools for compiling some future tooling and kernel module from source as well as `net-tools` and `masscan` for providing network analysis and host discovery.
+Following the SSH daemon setup and access we will find the `ins_package()` function which installs build tools for compiling some future tooling and kernel module rootkit [Diamorphine](https://github.com/m0nad/Diamorphine) from source as well as `net-tools` and `masscan` for providing network analysis and host discovery.
 
 |ins_package() function|
 |:---:|
@@ -214,7 +221,7 @@ Decoding this string with `base64 -d` reveals the source for another process-hid
 
 ---
 
-This was as far as I made it through my own dissection and analysis because during research into some of the scripts and binaries found in the `enbash.tar` and `enbio.tar` archives, I found an article written just one month prior by researchers at [Cado Security](https://cadosecurity.com) regarding this exact novel malware tooling. They do a ***much*** better job of explaining the remainder of the delivery and function in their article posted March 6, 2024 [Spinning YARN - A New Linux Malware Campaign Targets Docker, Apache Hadoop, Redis and Confluence](https://www.cadosecurity.com/blog/spinning-yarn-a-new-linux-malware-campaign-targets-docker-apache-hadoop-redis-and-confluence).
+This was as far as I continued through my own dissection and analysis because during research into the `fkoths` binary contained in the `enbash.tar` file, I found an article written just one month prior by researchers at [Cado Security](https://cadosecurity.com) regarding this exact novel malware tooling. They do a ***much*** better job of explaining the remainder of the delivery and function in their article posted March 6, 2024 [Spinning YARN - A New Linux Malware Campaign Targets Docker, Apache Hadoop, Redis and Confluence](https://www.cadosecurity.com/blog/spinning-yarn-a-new-linux-malware-campaign-targets-docker-apache-hadoop-redis-and-confluence).
 
 I have emailed Cado Security offering an archive of my findings that contain samples they mentioned not being able to retrieve, and hope to assist in what capacity I may.
 
