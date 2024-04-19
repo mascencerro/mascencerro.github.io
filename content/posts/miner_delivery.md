@@ -221,7 +221,7 @@ Decoding this string with `base64 -d` reveals the source for another process-hid
 
 ---
 
-This was as far as I continued through my own dissection and analysis because during research into the `fkoths` binary contained in the `enbash.tar` file, I found an article written just one month prior by researchers at [Cado Security](https://cadosecurity.com) regarding this exact novel malware tooling. They do a ***much*** better job of explaining the remainder of the delivery and function in their article posted March 6, 2024 [Spinning YARN - A New Linux Malware Campaign Targets Docker, Apache Hadoop, Redis and Confluence](https://www.cadosecurity.com/blog/spinning-yarn-a-new-linux-malware-campaign-targets-docker-apache-hadoop-redis-and-confluence).
+This was as far as I continued through my own dissection and analysis because during research into the `fkoths` binary contained in the `enbash.tar` file, I found an article written just over one month prior by researchers at [Cado Security](https://cadosecurity.com) regarding this exact novel malware tooling. They do a ***much*** better job of explaining the remainder of the delivery and function in their article posted March 6, 2024 [Spinning YARN - A New Linux Malware Campaign Targets Docker, Apache Hadoop, Redis and Confluence](https://www.cadosecurity.com/blog/spinning-yarn-a-new-linux-malware-campaign-targets-docker-apache-hadoop-redis-and-confluence).
 
 I have emailed Cado Security offering an archive of my findings that contain samples they mentioned not being able to retrieve, and hope to assist in what capacity I may.
 
