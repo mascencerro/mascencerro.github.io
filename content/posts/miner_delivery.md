@@ -1,7 +1,7 @@
 ---
 title: "Crypto-Miner Malware Delivery Analysis"
 date: 2024-04-17T11:52:05-05:00
-draft: true
+draft: false
 toc: false
 tags: ["iot", "malware", "crypto", "miner", "malware delivery", "enumeration"]
 ---
