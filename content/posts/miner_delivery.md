@@ -6,6 +6,9 @@ toc: false
 tags: ["iot", "malware", "crypto", "miner", "malware delivery", "enumeration"]
 ---
 
+
+
+
 ## Discovery
 A few weeks ago I was reworking a proof-of-concept exploit for a specific IoT device and while looking through the web service error log on the device, I noticed a few garbled mumbo-jumbo entries like in the following screenshot. These weren't requests I had made to the device, but from another device (more than likely compromised) attempting to exploit a vulnerability and compromise the device I was working on. Seeing as the request is probably being made from a compromised victim device, I masked the specific requestor IP address just in case.
 
@@ -17,6 +20,9 @@ While at first glance this *appears* to make no sense, we can break down the req
 
 &nbsp;
 
+
+
+
 ## Breaking it Down
 
 The first few segments of the log entry are just the request timestamp, entry type, process, etc. Basically nothing of relevance for what we're interested in. Next we can see that the log entry appears to have two *almost* identical requests. The first copy is the access error, and the second is the reason for access error (filesystem path).
@@ -27,7 +33,13 @@ The first few segments of the log entry are just the request timestamp, entry ty
 
 &nbsp;
 
+
+
+
 ### Compromising the Machine
+
+
+
 
 - #### Vulnerability and Initial Access
 
@@ -47,6 +59,9 @@ Doing a quick Google search with that part returns information about [CVE-2022-2
 Explanation of the specific vulnerability being exploited is beyond the scope of this writing, but there are articles and examples such as [here](https://medium.com/@sivaramaaa/nashorn-script-engine-injection-eafc88a7623a) and [here](https://darktrace.com/blog/detection-and-guidance-for-the-confluence-cve-2022-26134-zero-day), and even a [room at TryHackMe](https://tryhackme.com/r/room/cve202226134) that go more in depth for those interested.
 
 &nbsp;
+
+
+
 
 - #### Exploiting and Execution
 
@@ -76,6 +91,9 @@ Using either `base64 -d` command or [CyberChef](https://gchq.github.io/CyberChef
 
 We have found what appears to be a script inteneded for execution on a victim system. Not all devices have the `curl` program, so relying on that binary to be on the system would potentially hinder the ability for this payload to function. Instead, what this script does is create its own function to use `/dev/tcp` for file transfer.
 
+
+
+
 - #### Staging
 
 Once the initial payload is executed it downloads this new script `w.sh`:
@@ -98,9 +116,15 @@ It then does the following:
     - if user is root download `ar.sh`
     - if user *is not* root download `ai.sh`
 
+
+
+
 ### Setting up Shop
 
 At this point in the exploit we're at a fork in the road. If the script has access as system administrator or `root` it has free reign of the system. But what if it only has normal user or unprivileged access? We will start by looking at it from a low-privileged user basis first and analyze the script.
+
+
+
 
 - #### Unprivileged System Access
 
@@ -134,6 +158,10 @@ For the next step we will list the contents of this tarball and see what it cont
 The 'unprivileged' branch of the script downloads the plant as a compressed TAR archive masking itself as a JPEG image, then unpacks the archive and makes the `start` binary found in the archive executable to continue by running `./start`.
 
 The remaining files in the archive are for setting up the miner, the [XMRig](https://github.com/xmrig/xmrig) miner binaries, and the [`hide`](https://github.com/chenkaie/junkcode/blob/master/xhide.c) for [hiding the processes](https://flaviu.io/linux-how-to-a-hide-processes/).
+
+
+
+
 
 - #### Privileged System Access
 
