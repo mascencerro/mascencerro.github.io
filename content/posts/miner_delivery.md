@@ -1,8 +1,8 @@
 ---
-title: "Miner Delivery"
+title: "Crypto-Miner Malware Delivery Analysis"
 date: 2024-04-17T11:52:05-05:00
 draft: true
-toc: true
+toc: false
 tags: ["iot", "malware", "crypto", "miner", "malware delivery", "enumeration"]
 ---
 
@@ -186,17 +186,39 @@ Digging around I was able to find the [bash.sh script](https://github.com/arget1
 
 &nbsp;
 
-The `setup_s()` and `makesshaxx()` functions proceed to set up an ssh daemon and make it accessible to the `root` system user.
+The next functions called, `setup_s()` and `makesshaxx()`, proceed to set up an SSH daemon and make it accessible to the `root` system user.
 
 |setup_s() function|makesshaxx() function|
 |:---:|:---:|
 |{{< imagelink src=/img/miner_delivery/stager-priv-setup_s.png link=/img/miner_delivery/stager-priv-setup_s.png position=center >}}|{{< imagelink src=/img/miner_delivery/stager-priv-makesshaxx.png link=/img/miner_delivery/stager-priv-makesshaxx.png position=center >}}|
 
+Following the SSH daemon setup and access we will find the `ins_package()` function which installs build tools for compiling some future tooling and kernel module from source as well as `net-tools` and `masscan` for providing network analysis and host discovery.
+
+|ins_package() function|
+|:---:|
+|{{< imagelink src=/img/miner_delivery/stager-priv-ins_package.png link=/img/miner_delivery/stager-priv-ins_package.png position=center >}}|
+
+The next function `exec_hide2()` contains another large encoded string.
+
+|exec_hide2() function|
+|:---:|
+|{{< imagelink src=/img/miner_delivery/stager-priv-exec_hide2.png link=/img/miner_delivery/stager-priv-exec_hide2.png position=center >}}|
+
+Decoding this string with `base64 -d` reveals the source for another process-hider, [libprocesshider](https://github.com/gianlucaborello/libprocesshider). The string is decoded in this function and binary compiled.
+
+&nbsp;
+
+
+
+
+
 ---
 
-During research into some of the scripts and binaries found in the `enbash.tar` and `enbio.tar` archives, I found an article written just one month prior by researchers at [Cado Security](https://cadosecurity.com) regarding this exact novel malware tooling. They do a ***much*** better job of explaining the remainder of the delivery and function in their article posted March 6, 2024 [Spinning YARN - A New Linux Malware Campaign Targets Docker, Apache Hadoop, Redis and Confluence](https://www.cadosecurity.com/blog/spinning-yarn-a-new-linux-malware-campaign-targets-docker-apache-hadoop-redis-and-confluence).
+This was as far as I made it through my own dissection and analysis because during research into some of the scripts and binaries found in the `enbash.tar` and `enbio.tar` archives, I found an article written just one month prior by researchers at [Cado Security](https://cadosecurity.com) regarding this exact novel malware tooling. They do a ***much*** better job of explaining the remainder of the delivery and function in their article posted March 6, 2024 [Spinning YARN - A New Linux Malware Campaign Targets Docker, Apache Hadoop, Redis and Confluence](https://www.cadosecurity.com/blog/spinning-yarn-a-new-linux-malware-campaign-targets-docker-apache-hadoop-redis-and-confluence).
 
+I have emailed Cado Security offering an archive of my findings that contain samples they mentioned not being able to retrieve, and hope to assist in what capacity I may.
 
+Hopefully what I was able to cover in the delivery of this malware was informative, as I learned quite a bit through the researching of the scripts and locating the origins of some of the source used.
 
 
 
