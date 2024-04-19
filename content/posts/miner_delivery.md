@@ -225,35 +225,7 @@ This was as far as I continued through my own dissection and analysis because du
 
 I have emailed Cado Security offering an archive of my findings that contain samples they mentioned not being able to retrieve, and hope to assist in what capacity I may.
 
-Hopefully what I was able to cover in the delivery of this malware was informative, as I learned quite a bit through the researching of the scripts and locating the origins of some of the source used.
-
-
-
-
-<!-- 
-
-
-
-Starting at the top we can see some variable assignments for `domain`, `mainurl`, `miner_url`, `rshell_url` to be used later in the script. Next, the `ar.sh` script contains a function to check to make sure the `chattr` replacement from the staging script is in place, and the test with `netstat` for current connection to the proxy similar to the unprivileged script. the next function installs build software to compile binaries from source and some additional tools.
-
-Following the checks and tools installs, the next functions do the following:
-- disable firewall `firewalld`
-- set maximum `ulimit` for resources (YOLO SEND IT!! mode)
-- sets some environment variables to take care of `history` and `PATH`
-- disable SELINUX and the kernel watchdog (is the system taking to long to respond?)
-- set DNS resolver hosts to Google (8.8.8.8) and a Chinese DNS resolver 114DNS (114.114.114.114)
-- clear and takeover `crontab` just in case a system cron job tries to periodically interfere with the new operations
-
-
-|Privileged Script `ar.sh` (section 2 - ssh access)|
-|:---:|
-|{{< imagelink src=/img/miner_delivery/stager-priv-ssh.png link=/img/miner_delivery/stager-priv-ssh.png position=center >}}|
-
-This function adds SSH keys to `/root/.ssh` for remote SSH access to the `root` account on the system.  The kanji comment on line 108 translates to 'optimization' or 'majorization'.
-
-
-
--->
+Hopefully what I was able to cover in the delivery of this malware was informative, as I learned quite a bit through the researching of the scripts and locating the origins of some of the code and utilities used.
 
 
 
