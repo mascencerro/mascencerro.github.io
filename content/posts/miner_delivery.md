@@ -133,7 +133,7 @@ For the next step we will list the contents of this tarball and see what it cont
 
 The 'unprivileged' branch of the script downloads the plant as a compressed TAR archive masking itself as a JPEG image, then unpacks the archive and makes the `start` binary found in the archive executable to continue by running `./start`.
 
-There are interesting files in the archive to examine, of course, but that will be discussed later after we examine the 'privileged' branch of the stager script.
+The remaining files in the archive are for setting up the miner, the xmrig miner binaries, and the [`hide`](https://github.com/chenkaie/junkcode/blob/master/xhide.c) for [hiding the processes](https://flaviu.io/linux-how-to-a-hide-processes/).
 
 - #### Privileged System Access
 
@@ -182,8 +182,19 @@ This function creates the directory `/var/tmp/.11` if it doesn't already exist (
 |:---:|
 |{{< imagelink src=/img/miner_delivery/stager-priv-enbash_enbio-files.png link=/img/miner_delivery/stager-priv-enbash_enbio-files.png position=center >}}|
 
+Digging around I was able to find the [bash.sh script](https://github.com/arget13/DDexec/blob/main/ddexec.sh) used for hiding processes as part of the [DDexec Github repository](https://github.com/arget13/DDexec).
 
+&nbsp;
 
+The `setup_s()` and `makesshaxx()` functions proceed to set up an ssh daemon and make it accessible to the `root` system user.
+
+|setup_s() function|makesshaxx() function|
+|:---:|:---:|
+|{{< imagelink src=/img/miner_delivery/stager-priv-setup_s.png link=/img/miner_delivery/stager-priv-setup_s.png position=center >}}|{{< imagelink src=/img/miner_delivery/stager-priv-makesshaxx.png link=/img/miner_delivery/stager-priv-makesshaxx.png position=center >}}|
+
+---
+
+During research into some of the scripts and binaries found in the `enbash.tar` and `enbio.tar` archives, I found an article written just one month prior by researchers at [Cado Security](https://cadosecurity.com) regarding this exact novel malware tooling. They do a ***much*** better job of explaining the remainder of the delivery and function in their article posted March 6, 2024 [Spinning YARN - A New Linux Malware Campaign Targets Docker, Apache Hadoop, Redis and Confluence](https://www.cadosecurity.com/blog/spinning-yarn-a-new-linux-malware-campaign-targets-docker-apache-hadoop-redis-and-confluence).
 
 
 
