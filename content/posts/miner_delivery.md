@@ -133,7 +133,7 @@ For the next step we will list the contents of this tarball and see what it cont
 
 The 'unprivileged' branch of the script downloads the plant as a compressed TAR archive masking itself as a JPEG image, then unpacks the archive and makes the `start` binary found in the archive executable to continue by running `./start`.
 
-The remaining files in the archive are for setting up the miner, the XMRig miner binaries, and the [`hide`](https://github.com/chenkaie/junkcode/blob/master/xhide.c) for [hiding the processes](https://flaviu.io/linux-how-to-a-hide-processes/).
+The remaining files in the archive are for setting up the miner, the [XMRig](https://github.com/xmrig/xmrig) miner binaries, and the [`hide`](https://github.com/chenkaie/junkcode/blob/master/xhide.c) for [hiding the processes](https://flaviu.io/linux-how-to-a-hide-processes/).
 
 - #### Privileged System Access
 
